@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Image Capture/Picker'),
+      home: const MyHomePage(title: 'Image Capture/Picker & Live Video Feed'),
     );
   }
 }
