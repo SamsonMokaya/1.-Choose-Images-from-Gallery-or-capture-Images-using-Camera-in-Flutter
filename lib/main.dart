@@ -107,16 +107,35 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
 
           children: <Widget>[
 
-            //image preview
-            _image != null?Image.file(_image!):Icon(Icons.image, size: 150,),
-            ElevatedButton(onPressed: (){
+        Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8.0,
+              spreadRadius: 4.0,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        width: 400,
+        height: 450,
+
+          child: _image != null?Image.file(_image!):Icon(Icons.image, size: 150,),
+        ),
+
+
+
+        ElevatedButton(onPressed: (){
 
               chooseImages();
 
@@ -126,7 +145,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
             }, child: Text("Choose / Capture")),
 
-            CameraPreview(cameraController),
 
           ],
         ),
