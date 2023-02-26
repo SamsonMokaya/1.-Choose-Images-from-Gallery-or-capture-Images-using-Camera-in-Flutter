@@ -43,6 +43,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  late CameraController cameraController;
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
@@ -51,10 +53,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
+    _image = File(image!.path);
+
     if(image != null){
 
       setState(() {
         _image = File(image.path);
+        doImageLabelling();
       });
 
     }
@@ -65,17 +70,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
+    _image = File(image!.path);
+
     if(image != null){
 
       setState(() {
         _image = File(image.path);
+        doImageLabelling();
       });
 
     }
 
   }
 
-  late CameraController cameraController;
+  doImageLabelling() {
+
+  }
+
+
 
   @override
   void initState() {
@@ -128,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         width: 400,
-        height: 450,
+        height: 450 ,
 
           child: _image != null?Image.file(_image!):Icon(Icons.image, size: 150,),
         ),
