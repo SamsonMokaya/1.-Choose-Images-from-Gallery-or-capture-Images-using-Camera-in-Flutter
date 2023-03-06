@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:imagecapturingapp/RealTimeCameraDetection.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -51,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
   late ImagePicker imagePicker;
   String result = "Results will be shown here";
 
+  dynamic imageLabeler;
+
 
   @override
   void initState() {
@@ -76,6 +79,9 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
     });
+
+    final ImageLabelerOptions options = ImageLabelerOptions(confidenceThreshold: 0.5);
+    imageLabeler = ImageLabeler(options: options);
   }
 
   @override
@@ -122,6 +128,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
     InputImage inputImage = InputImage.fromFile(_image!!);
 
+    final List<ImageLabel> labels = await imageLabeler.processImage(inputImage);
+
+    result = "";
+
+    for(ImageLabel label in labels){
+      final String text = label.label;
+      final int index = label.index;
+      final double confidence = label.confidence;
+
+      result += text + " " + confidence.toStringAsFixed(2) + "\n";
+
+    }
+
+    setState(() {
+      result;
+    });
+
+  }
+
+  void _navigateToRealtimeCameraDetection(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CameraScreen(),
+      ),
+    );
   }
 
 
@@ -168,16 +200,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
                     },
                       child: Container(
-                        margin: EdgeInsets.only(top: 8),
+                        padding: EdgeInsets.only(top: 20),
+                        margin: EdgeInsets.only(top: 20),
                         child: _image != null?Image.file(
                             _image!,
-                          width: 335,
-                          height: 495,
+                          width: 200,
+                          height: 300,
                           fit: BoxFit.fill,
                         )
                             :Container(
-                          width: 340,
-                          height: 330,
+                          width: 500,
+                          height: 500,
                           child: Icon(
                             Icons.camera_alt,
                             color: Colors.black
@@ -203,16 +236,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-
-
-
-
-
-
-
-
               ],
             ),
+        ),
+
+        bottomNavigationBar: FloatingActionButton(
+          onPressed: _navigateToRealtimeCameraDetection,
+          child: Icon(Icons.emergency_recording_outlined),
         ),
       ),
     );
