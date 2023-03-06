@@ -4,7 +4,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:imagecapturingapp/RealTimeCameraDetection.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -147,18 +146,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-  void _navigateToRealtimeCameraDetection(){
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CameraScreen(),
-      ),
-    );
-  }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -238,11 +225,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-        ),
-
-        bottomNavigationBar: FloatingActionButton(
-          onPressed: _navigateToRealtimeCameraDetection,
-          child: Icon(Icons.emergency_recording_outlined),
         ),
       ),
     );
